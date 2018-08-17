@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Table, Button, Divider, Icon, Select, Modal } from 'antd';
+import {Model, Table, Button, Divider, Icon, Select, Modal } from 'antd';
 const Option = Select.Option;
 
 
@@ -7,10 +7,13 @@ class Board extends Component {
     constructor(props){
         super(props)
         this.searchChange = this.searchChange.bind(this)
+        this.toggleModal = this.toggleModal.bind(this)
     }
     state = {
         selectedRowKeys: [], // Check here to configure the default column
         loading: false,
+        modal_visible: false,
+        check_data:[],
         columns: [{
             title: 'Title',
             dataIndex: 'title',
@@ -30,7 +33,7 @@ class Board extends Component {
                         <Divider type="vertical" />
                         <a href="javascript:;">删除</a>
                         <Divider type="vertical" />
-                        <a href="javascript:;" className="ant-dropdown-link">
+                        <a onClick={this.checkDetail.bind(this,record.id)} href="javascript:;" className="ant-dropdown-link">
                         查看
                         </a>
                     </span>
@@ -61,6 +64,18 @@ class Board extends Component {
         this.getData()
         this.getTypes()
     }
+    toggleModal(){
+        this.setState({ modal_visible: !this.state.modal_visible})
+    }
+    checkDetail(id){
+        for(var i=0;i<this.state.data.length;i++){
+            const item = this.state.data[i];
+            if(item.id === id){
+                this.setState({ check_data:item})
+            }
+        }
+        this.toggleModal()
+    }
     start = () => {
         this.setState({ loading: true });
         // ajax request after empty completing
@@ -80,7 +95,7 @@ class Board extends Component {
       this.getData(value)
   }
   render() {
-    const { loading, selectedRowKeys,data,types } = this.state;
+      const { loading, selectedRowKeys, data, types, check_data} = this.state;
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -111,6 +126,14 @@ class Board extends Component {
           </span>
         </div>
         <Table rowSelection={rowSelection} columns={this.state.columns} dataSource={data} />
+            <Modal
+                title={check_data.title}
+                visible={this.state.modal_visible}
+                onOk={this.toggleModal}
+                onCancel={this.toggleModal}
+            >
+                <p>{check_data.content}</p>
+            </Modal>
       </div>
     );
   }
