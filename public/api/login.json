@@ -1,0 +1,10 @@
+
+{
+    "code": 200,
+    "data": {
+        "username": "二狗子",
+        "level": 6,
+        "permission": ["control_board", "create_board"],
+        "token": "fghjrdklsa5678yughfvbvn"
+    }
+}
