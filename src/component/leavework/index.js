@@ -25,7 +25,6 @@ class Leavework extends Component{
             series: [{
                 name: '工资',
                 type: 'bar',
-                barGap:5,
                 barWidth:30,
                 data: [5100, 2065, 3634, 6500, 10235, 5100, 2065, 3634, 6500, 10235, 6500, 10235]
             }]  
